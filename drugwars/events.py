@@ -493,6 +493,27 @@ def location_menu(p):
             clear()
             print(SingleTable([["That isn't a number!"]]).table)
 
+def difficulty_screen():
+    clear()
+    while True:
+        diff_table = [
+            ["(E)asy", "(N)ormal", "(H)ard"],
+        ]
+        print(SingleTable(diff_table, "Difficulty Level").table)
+        print("What level of difficulty would you like to play at?")
+        diff = input("\n> ")
+        if diff.lower() == "e":
+            return 0
+        elif diff.lower() == "n":
+            return 1
+        elif diff.lower() == "h":
+            return 2
+        else:
+            clear()
+            print(SingleTable([["Options Are: E, N, or H!!"]]).table)
+            
+    
+
 def main_screen(p):
     prices = Prices(p)
     if p.days == 30:

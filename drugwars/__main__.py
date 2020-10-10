@@ -22,13 +22,20 @@ def main():
             [""],
             ["   Press ENTER to Play or Ctrl+C to Quit"],
             [""],
-            ["   Version: 1.1.7  Report Bugs on GitHub"],
+            ["   Version: 1.1.8  Report Bugs on GitHub"],
             ["https://github.com/M4cs/Drugwars/issues/new"]
         ]
         print(SingleTable(title_screen).table)
         input()
         p = Player()
         clear()
+        diff = difficulty_screen()
+        if diff == 0:
+            p.shark.balance = 5500
+        elif diff == 1:
+            p.shark.balance = 6500
+        elif diff == 2:
+            p.shark.balance = 8000
         main_screen(p)
     except KeyboardInterrupt:
         exit()
