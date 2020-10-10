@@ -49,6 +49,8 @@ You have access to a bank and stash in the Bronx which allows you to store money
 - You cannot go back to a location if you have chosen jet, you must travel somewhere else.
 - You can only go to the loan shark, bank, and stash in the Bronx.
 - You only have 30 days to make your money and pay back the loan shark.
+- Your debt increases each day with interest so pay it back ASAP
+- Your savings will increase each day with interest as well.
 
 ### Controls
 
