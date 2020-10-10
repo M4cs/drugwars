@@ -1,5 +1,8 @@
 <p align="center">
   <img src="https://i.imgur.com/pvKzM9G.png">
+  <img src="https://pepy.tech/badge/drugwars">
+  <img src="https://img.shields.io/github/issues/M4cs/drugwars">
+  <img src="https://img.shields.io/github/stars/M4cs/drugwars">
 </p>
 
 # Drugwars
