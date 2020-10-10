@@ -51,6 +51,12 @@ Drugwars is a game I've been playing for a long time, well before I learned how 
 
 # Changelog
 
+v1.1.7
+
+```
+- Fix loan shark balance
+```
+
 v1.1.6:
 
 ```
