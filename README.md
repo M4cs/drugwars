@@ -81,6 +81,12 @@ Drugwars is a game I've been playing for a long time, well before I learned how 
 
 # Changelog
 
+v1.1.9
+
+```
+- Fix infinite loop in Issue #2
+```
+
 v1.1.8
 
 ```

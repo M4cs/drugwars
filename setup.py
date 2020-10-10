@@ -5,7 +5,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='drugwars',
-    version='1.1.8-post2',
+    version='1.1.9',
     author='Max Bridgland',
     author_email='mabridgland@protonmail.com',
     description='The 80s DOS game re-written in Python',

@@ -19,14 +19,17 @@ def cops_chase(player):
                 print(SingleTable([["Would you like to (R)un or (F)ight?"], ["HP: " + str(player.health) + "/ 20"]]).table)
                 a = input("\n> ")
                 aout = check_ans_yn(a)
-                if a == 1:
-                    if 1 == randint(1,6):
+                if aout == 1:
+                    if 1 == randint(1,3):
                         drug = choice(["cocaine", "heroin", "acid", "weed", "speed", "ludes"])
                         pdrug = p.get_amt(drug)
-                        amnt = randint(1, 10)
-                        pdrug -= amnt
-                        clear()
-                        print(SingleTable([["You got away but you dropped " + str(amnt) + " bags of " + drug.capitalize() + " while running!!"]]).table)
+                        if pdrug > 0:
+                            amnt = randint(1, 10)
+                            pdrug -= amnt
+                            clear()
+                            print(SingleTable([["You got away but you dropped " + str(amnt) + " bags of " + drug.capitalize() + " while running!!"]]).table)
+                        else:
+                            print(SingleTable([["You got away!"]]).table)
                         input("Press ENTER to Continue")
                         break
                     else:
@@ -37,16 +40,29 @@ def cops_chase(player):
                         else:
                             drug = choice(["cocaine", "heroin", "acid", "weed", "speed", "ludes"])
                             pdrug = p.get_amt(drug)
-                            amnt = randint(1, 10)
-                            pdrug -= amnt
-                            clear()
-                            print(SingleTable([["You got away but you dropped " + str(amnt) + " bags of " + drug.capitalize() + "while running!!"]]).table)
+                            if pdrug > 0:
+                                amnt = randint(1, 10)
+                                pdrug -= amnt
+                                clear()
+                                print(SingleTable([["You got away but you dropped " + str(amnt) + " bags of " + drug.capitalize() + " while running!!"]]).table)
+                            else:
+                                print(SingleTable([["You got away!"]]).table)
                             input("Press ENTER to Continue")
                             break
-                elif a == 2:
-                    if 1 == randint(1,3):
+                elif aout == 2:
+                    if 1 == randint(1,6):
                         cops -= 1
                         if cops == 0:
+                            drug = choice(["cocaine", "heroin", "acid", "weed", "speed", "ludes"])
+                            pdrug = p.get_amt(drug)
+                            if pdrug > 0:
+                                amnt = randint(1, 10)
+                                pdrug -= amnt
+                                clear()
+                                print(SingleTable([["You got away but you dropped " + str(amnt) + " bags of " + drug.capitalize() + " while running!!"]]).table)
+                            else:
+                                print(SingleTable([["You got away!"]]).table)
+                            input("Press ENTER to Continue")
                             break
                         clear()
                         print(SingleTable([["You took one of them out!"]]).table)
@@ -58,8 +74,18 @@ def cops_chase(player):
             while True:
                 print(SingleTable([["Press ENTER to Try and Run"], ["HP: " + str(player.health) + "/ 20"]]).table)
                 input()
-                if 1 == randint(1,6):
-                        break
+                if 1 == randint(1,3):
+                    drug = choice(["cocaine", "heroin", "acid", "weed", "speed", "ludes"])
+                    pdrug = p.get_amt(drug)
+                    if pdrug > 0:
+                        amnt = randint(1, 10)
+                        pdrug -= amnt
+                        clear()
+                        print(SingleTable([["You got away but you dropped " + str(amnt) + " bags of " + drug.capitalize() + " while running!!"]]).table)
+                    else:
+                        print(SingleTable([["You got away!"]]).table)
+                    input("Press ENTER to Continue")
+                    break
                 else:
                     player.health -= 1
                     clear()
