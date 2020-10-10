@@ -462,7 +462,7 @@ def location_menu(p):
         loc_index = ['Bronx', 'Ghetto', 'Central Park', 'Manhattan', 'Coney Island', 'Brooklyn']
         location_table = [
             ['1) Bronx', '2) Ghetto', '3) Central Park'],
-            ['4) Manhatten', '5) Coney Island', '6) Brooklyn']
+            ['4) Manhattan', '5) Coney Island', '6) Brooklyn']
         ]
         print(SingleTable(location_table, title="Where you gonna go? Current Location: " + p.current_area).table)
         try:
