@@ -5,7 +5,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='drugwars',
-    version='1.1.7',
+    version='1.1.7-a',
     author='Max Bridgland',
     author_email='mabridgland@protonmail.com',
     description='The 80s DOS game re-written in Python',
@@ -15,6 +15,7 @@ setup(
     packages=find_packages(),
     install_requires=[
         'terminaltables',
+        'requests'
     ],
     license='GNU General Public License v3 (GPLv3) (GPL)',
     zip_safe=True,
