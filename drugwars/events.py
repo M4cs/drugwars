@@ -459,7 +459,7 @@ def sell_menu(prices, inventory_table, pricing_table, money_table, p):
 def location_menu(p):
     while True:
         clear()
-        loc_index = ['Bronx', 'Ghetto', 'Central Park', 'Manhatten', 'Coney Island', 'Brooklyn']
+        loc_index = ['Bronx', 'Ghetto', 'Central Park', 'Manhattan', 'Coney Island', 'Brooklyn']
         location_table = [
             ['1) Bronx', '2) Ghetto', '3) Central Park'],
             ['4) Manhatten', '5) Coney Island', '6) Brooklyn']
