@@ -16,7 +16,10 @@ Play in your browser [Here](https://Drugwars-Online-Version.m4cs.repl.run)
 **Recommended:** Using pip
 
 ```
-pip install drugwars
+pip3 install drugwars
+
+# To Update
+pip3 install --upgrade drugwars
 ```
 
 Installing from source
