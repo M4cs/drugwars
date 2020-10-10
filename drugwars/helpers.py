@@ -9,6 +9,8 @@ def check_ans_yn(a):
         return 0
 
 def check_drug_inp(a):
+    if len(a) == 0:
+        return None
     if a[0].lower() == "c":
         return "cocaine"
     elif a[0].lower() == "h":

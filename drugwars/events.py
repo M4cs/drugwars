@@ -26,7 +26,7 @@ def cops_chase(player):
                         amnt = randint(1, 10)
                         pdrug -= amnt
                         clear()
-                        print(SingleTable([["You got away but you dropped " + str(amnt) + " bags of " + drug.capitalize() + " while running!!"]]))
+                        print(SingleTable([["You got away but you dropped " + str(amnt) + " bags of " + drug.capitalize() + " while running!!"]]).table)
                         input("Press ENTER to Continue")
                         break
                     else:
@@ -40,7 +40,7 @@ def cops_chase(player):
                             amnt = randint(1, 10)
                             pdrug -= amnt
                             clear()
-                            print(SingleTable([["You got away but you dropped " + str(amnt) + " bags of " + drug.capitalize() + "while running!!"]]))
+                            print(SingleTable([["You got away but you dropped " + str(amnt) + " bags of " + drug.capitalize() + "while running!!"]]).table)
                             input("Press ENTER to Continue")
                             break
                 elif a == 2:
@@ -369,14 +369,134 @@ def buy_gun(p):
                 break
             input("Press ENTER to Continue")
 
-def display_pricing_screen(p):
+def you_win(p):
+    clear()
+    print(SingleTable([["GAME OVER", "You Reached 30 Days!"]]).table)
+    print(SingleTable([["Your Total Money:", p.bank.balance + p.money - p.shark.balance]]).table)
+    print(SingleTable([["Your Score:", str((p.bank.balance + p.money - p.shark.balance) / 1000000 * 100) + " out of 100"]]).table)
+    exit()
+
+def buy_menu(prices, inventory_table, pricing_table, money_table, p):
+    while True:
+        print(SingleTable(inventory_table()).table)
+        print(SingleTable(pricing_table(), title="Prices").table)
+        print(SingleTable(money_table(), title="Money").table)
+        print(SingleTable([["What would you like to buy?"]]).table)
+        buy = input("\n> ")
+        if not check_drug_inp(buy):
+            clear()
+            print(SingleTable([["Enter the first letter of a drug to choose!"]]).table)
+        else:
+            if buy[0].lower() == "c":
+                drug = prices.cocaine
+            elif buy[0].lower() == "h":
+                drug = prices.heroin
+            elif buy[0].lower() == "a":
+                drug = prices.acid
+            elif buy[0].lower() == "w":
+                drug = prices.weed
+            elif buy[0].lower() == "s":
+                drug = prices.speed
+            elif buy[0].lower() == "l":
+                drug = prices.ludes
+            price = int(round_down(drug))
+            print(SingleTable([["How much would you like to buy?"], ["Max Allowed: " + str(p.get_max(check_drug_inp(buy), drug))]]).table)
+            try:
+                amnt = int(input("\n> "))
+                if p.can_buy(price, int(amnt)):
+                    p.buy(check_drug_inp(buy), amnt, price)
+                    clear()
+                    print(SingleTable([["You bought " + str(amnt) + " of " + check_drug_inp(buy)]]).table)
+                    break
+                else:
+                    clear()
+                    print(SingleTable([["You don't have enough money/coat space to buy that!"]]).table)
+                    break
+            except ValueError:
+                clear()
+                print(SingleTable([["That isn't a number!"]]).table)
+
+def sell_menu(prices, inventory_table, pricing_table, money_table, p):
+    while True:
+        print(SingleTable(inventory_table()).table)
+        print(SingleTable(pricing_table(), title="Prices").table)
+        print(SingleTable(money_table(), title="Money").table)
+        print(SingleTable([["What would you like to sell?"]]).table)
+        sell = input("\n> ")
+        if not check_drug_inp(sell):
+            clear()
+            print(SingleTable([["Enter the first letter of a drug to choose!"]]).table)
+        else:
+            if sell[0].lower() == "c":
+                drug = prices.cocaine
+            elif sell[0].lower() == "h":
+                drug = prices.heroin
+            elif sell[0].lower() == "a":
+                drug = prices.acid
+            elif sell[0].lower() == "w":
+                drug = prices.weed
+            elif sell[0].lower() == "s":
+                drug = prices.speed
+            elif sell[0].lower() == "l":
+                drug = prices.ludes
+            price = int(round_down(drug))
+            print(SingleTable([["How much would you like to sell?"], ["You Have: " + str(p.get_amt(check_drug_inp(sell)))]]).table)
+            try:
+                amnt = int(input("\n> "))
+                if p.can_sell(amnt, check_drug_inp(sell)):
+                    p.sell(check_drug_inp(sell), amnt, price)
+                    clear()
+                    print(SingleTable([["You sold " + str(amnt) + " of " + check_drug_inp(sell)]]).table)
+                    break
+                else:
+                    clear()
+                    print(SingleTable([["You don't have enough to sell that many!"]]).table)
+                    break
+            except ValueError:
+                clear()
+                print(SingleTable([["That isn't a number!"]]).table)
+
+def location_menu(p):
+    while True:
+        clear()
+        loc_index = ['Bronx', 'Ghetto', 'Central Park', 'Manhatten', 'Coney Island', 'Brooklyn']
+        location_table = [
+            ['1) Bronx', '2) Ghetto', '3) Central Park'],
+            ['4) Manhatten', '5) Coney Island', '6) Brooklyn']
+        ]
+        print(SingleTable(location_table, title="Where you gonna go? Current Location: " + p.current_area).table)
+        try:
+            loc = int(input("\n> ")) - 1
+            if loc > 5 or loc < 0:
+                clear()
+                print(SingleTable([["Choose a number between 1 and 6!"]]).table)
+            else:
+                if loc_index[loc] == p.current_area:
+                    clear()
+                else:
+                    loc += 1
+                    if loc == 1:
+                        p.current_area = "Bronx"
+                    if loc == 2:
+                        p.current_area = "Ghetto"
+                    if loc == 3:
+                        p.current_area = "Central Park"
+                    if loc == 4:
+                        p.current_area = "Manhattan"
+                    if loc == 5:
+                        p.current_area = "Coney Island"
+                    if loc == 6:
+                        p.current_area = "Brooklyn"
+                    p.days += 1
+                    break
+        except ValueError:
+            clear()
+            print(SingleTable([["That isn't a number!"]]).table)
+
+def main_screen(p):
     prices = Prices(p)
     if p.days == 30:
-        clear()
-        print(SingleTable([["GAME OVER", "You Reached 30 Days!"]]))
-        print(SingleTable([["Your Total Money:", p.bank.balance + p.money - p.shark.balance]]))
-        print(SingleTable([["Your Score:", str((p.bank.balance + p.money - p.shark.balance) / 1000000 * 100) + " out of 100"]]))
-        exit()
+        you_win(p)
     if not p.is_first_round:
         achoice = choice([lambda p: cops_chase(p), lambda p: buy_gun(p), lambda p: get_mugged(p), lambda p: find_drugs(p)])
         achoice(p)
@@ -414,119 +534,11 @@ def display_pricing_screen(p):
         anout = check_ans_bsj(ans)
         clear()
         if anout == 1:
-            while True:
-                print(SingleTable(inventory_table()).table)
-                print(SingleTable(pricing_table(), title="Prices").table)
-                print(SingleTable(money_table(), title="Money").table)
-                print(SingleTable([["What would you like to buy?"]]).table)
-                buy = input("\n> ")
-                if not check_drug_inp(buy):
-                    clear()
-                    print(SingleTable([["Enter the first letter of a drug to choose!"]]))
-                else:
-                    if buy[0].lower() == "c":
-                        drug = prices.cocaine
-                    elif buy[0].lower() == "h":
-                        drug = prices.heroin
-                    elif buy[0].lower() == "a":
-                        drug = prices.acid
-                    elif buy[0].lower() == "w":
-                        drug = prices.weed
-                    elif buy[0].lower() == "s":
-                        drug = prices.speed
-                    elif buy[0].lower() == "l":
-                        drug = prices.ludes
-                    price = int(round_down(drug))
-                    print(SingleTable([["How much would you like to buy?"], ["Max Allowed: " + str(p.get_max(check_drug_inp(buy), drug))]]).table)
-                    try:
-                        amnt = int(input("\n> "))
-                        if p.can_buy(price, int(amnt)):
-                            p.buy(check_drug_inp(buy), amnt, price)
-                            clear()
-                            print(SingleTable([["You bought " + str(amnt) + " of " + check_drug_inp(buy)]]).table)
-                            break
-                        else:
-                            clear()
-                            print(SingleTable([["You don't have enough money/coat space to buy that!"]]).table)
-                            break
-                    except ValueError:
-                        clear()
-                        print(SingleTable([["That isn't a number!"]]).table)
+            buy_menu(prices, inventory_table, pricing_table, money_table, p)
         elif anout == 2:
-            while True:
-                print(SingleTable(inventory_table()).table)
-                print(SingleTable(pricing_table(), title="Prices").table)
-                print(SingleTable(money_table(), title="Money").table)
-                print(SingleTable([["What would you like to sell?"]]).table)
-                sell = input("\n> ")
-                if not check_drug_inp(sell):
-                    clear()
-                    print(SingleTable([["Enter the first letter of a drug to choose!"]]))
-                else:
-                    if sell[0].lower() == "c":
-                        drug = prices.cocaine
-                    elif sell[0].lower() == "h":
-                        drug = prices.heroin
-                    elif sell[0].lower() == "a":
-                        drug = prices.acid
-                    elif sell[0].lower() == "w":
-                        drug = prices.weed
-                    elif sell[0].lower() == "s":
-                        drug = prices.speed
-                    elif sell[0].lower() == "l":
-                        drug = prices.ludes
-                    price = int(round_down(drug))
-                    print(SingleTable([["How much would you like to sell?"], ["You Have: " + str(p.get_amt(check_drug_inp(sell)))]]).table)
-                    try:
-                        amnt = int(input("\n> "))
-                        if p.can_sell(amnt, check_drug_inp(sell)):
-                            p.sell(check_drug_inp(sell), amnt, price)
-                            clear()
-                            print(SingleTable([["You sold " + str(amnt) + " of " + check_drug_inp(sell)]]).table)
-                            break
-                        else:
-                            clear()
-                            print(SingleTable([["You don't have enough to sell that many!"]]).table)
-                            break
-                    except ValueError:
-                        clear()
-                        print(SingleTable([["That isn't a number!"]]).table)
+            sell_menu(prices, inventory_table, pricing_table, money_table, p)
         elif anout == 3:
-            while True:
-                clear()
-                loc_index = ['Bronx', 'Ghetto', 'Central Park', 'Manhatten', 'Coney Island', 'Brooklyn']
-                location_table = [
-                    ['1) Bronx', '2) Ghetto', '3) Central Park'],
-                    ['4) Manhatten', '5) Coney Island', '6) Brooklyn']
-                ]
-                print(SingleTable(location_table, title="Where you gonna go? Current Location: " + p.current_area).table)
-                try:
-                    loc = int(input("\n> ")) - 1
-                    if loc > 5 or loc < 0:
-                        clear()
-                        print(SingleTable([["Choose a number between 1 and 6!"]]).table)
-                    else:
-                        if loc_index[loc] == p.current_area:
-                            clear()
-                        else:
-                            loc += 1
-                            if loc == 1:
-                                p.current_area = "Bronx"
-                            if loc == 2:
-                                p.current_area = "Ghetto"
-                            if loc == 3:
-                                p.current_area = "Central Park"
-                            if loc == 4:
-                                p.current_area = "Manhattan"
-                            if loc == 5:
-                                p.current_area = "Coney Island"
-                            if loc == 6:
-                                p.current_area = "Brooklyn"
-                            p.days += 1
-                            break
-                except ValueError:
-                    clear()
-                    print(SingleTable([["That isn't a number!"]]).table)
+            location_menu(p)
         else:
             clear()
             print(SingleTable([["That isn't an option. Choose B, S, or J"]]).table)
@@ -535,4 +547,4 @@ def display_pricing_screen(p):
     p.is_first_round = False
     p.bank.interest()
     p.shark.interest()
-    display_pricing_screen(p)
+    main_screen(p)

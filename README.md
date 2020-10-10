@@ -55,6 +55,7 @@ v1.1.7
 
 ```
 - Fix loan shark balance
+- Fix input bugs
 ```
 
 v1.1.6:

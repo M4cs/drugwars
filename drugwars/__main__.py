@@ -29,7 +29,7 @@ def main():
         input()
         p = Player()
         clear()
-        display_pricing_screen(p)
+        main_screen(p)
     except KeyboardInterrupt:
         exit()
 
