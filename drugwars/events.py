@@ -545,7 +545,7 @@ def main_screen(p):
     if p.days == 30:
         you_win(p)
     if not p.is_first_round:
-        achoice = choice([lambda p: cops_chase(p), lambda p: buy_gun(p), lambda p: get_mugged(p), lambda p: find_drugs(p)])
+        achoice = choice([lambda p: cops_chase(p), lambda p: buy_gun(p), lambda p: get_mugged(p), lambda p: find_drugs(p), lambda p: upgrade_coat(p), lambda p: upgrade_coat(p)])
         achoice(p)
     if prices.action != None and not p.is_first_round:
         print(SingleTable([[prices.action]]).table)
