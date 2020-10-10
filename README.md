@@ -34,7 +34,9 @@ drugwars
 
 The game is played inside of your terminal and uses letters and numbers to select things and take part actions.
 
-You start with 2000 dollars and 5500 dollars in debt to the loan shark. The goal of the game is to pay off the loan shark and get as much money as possible while avoiding cops or getting mugged. Cops can shoot at you and you have 20 hit points until you die and the game ends. 
+You start with 2000 dollars and 5500 dollars in debt to the loan shark. The goal of the game is to pay off the loan shark and get as much money as possible while avoiding cops or getting mugged.
+
+Cops can shoot at you and you have 20 hit points until you die and the game ends. You are able to purchase guns occasionally which will give you a chance to kill the cops.
 
 You have 30 days to buy and sell as many drugs as possible to make a profit. Prices are randomly generated so it's all dependent on the market in the area you're at.
 
