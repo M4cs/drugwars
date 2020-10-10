@@ -248,7 +248,12 @@ def visit_bank(player):
         while True:
             print(SingleTable([['How much would you like to deposit?'], ['Bank: ' + str(player.bank.balance) + ' | Wallet: ' + str(player.money)]]).table)
             try:
-                ans = int(input("\n> "))
+                ans = input("\n> ")
+                if ans.lower() == "h" or ans.lower() == "half":
+                    if player.bank.check_can_dep(int(round_down(player.money / 2))):
+                        player.bank.deposit(int(round_down(player.money / 2)))
+                        break
+                ans = int(ans)
                 if ans == 0:
                     break
                 else:
@@ -266,12 +271,19 @@ def visit_bank(player):
         while True:
             print(SingleTable([['How much would you like to withdraw?'], ['Bank: ' + str(player.bank.balance) + ' | Wallet: ' + str(player.money)]]).table)
             try:
-                ans = int(input("\n> "))
+                ans = input("\n> ")
+                if ans.lower() == "a" or ans.lower() == "all":
+                    player.bank.withdraw(player.bank.balance)
+                    break
+                if ans.lower() == "h" or ans.lower() == "half":
+                    player.bank.withdraw(int(round_down(player.shark.balance / 2)))
+                    break
+                ans = int(ans)
                 if ans == 0:
                     break
                 else:
-                    if player.shark.check_can_borrow(ans):
-                        player.shark.withdraw(ans)
+                    if player.bank.check_can_wd(ans):
+                        player.bank.withdraw(ans)
                         break
                     else:
                         clear()
@@ -285,7 +297,16 @@ def visit_loan_shark(player):
     while True:
         print(SingleTable([['How much would you like to repay?'], ['Debt: ' + str(player.shark.balance) + ' | Wallet: ' + str(player.money)]]).table)
         try:
-            ans = int(input("\n> "))
+            ans = input("\n> ")
+            if ans.lower() == "a" or ans.lower() == "all":
+                if player.shark.check_can_dep(player.shark.balance):
+                    player.shark.deposit(player.shark.balance)
+                    break
+            if ans.lower() == "h" or ans.lower() == "half":
+                if player.shark.check_can_dep(int(round_down(player.shark.balance / 2))):
+                    player.shark.deposit(int(round_down(player.shark.balance / 2)))
+                    break
+            ans = int(ans)
             if ans == 0:
                 break
             elif ans > player.shark.balance:
