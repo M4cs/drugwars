@@ -81,6 +81,12 @@ Drugwars is a game I've been playing for a long time, well before I learned how 
 
 # Changelog
 
+v1.1.10
+
+```
+- Adds "a"/"all" and "h"/"half" features in Loan Shark and Bank
+```
+
 v1.1.9
 
 ```
