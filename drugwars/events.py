@@ -22,7 +22,7 @@ def cops_chase(player):
                 if aout == 1:
                     if 1 == randint(1,3):
                         drug = choice(["cocaine", "heroin", "acid", "weed", "speed", "ludes"])
-                        pdrug = p.get_amt(drug)
+                        pdrug = player.get_amt(drug)
                         if pdrug > 0:
                             amnt = randint(1, 10)
                             pdrug -= amnt
@@ -39,7 +39,7 @@ def cops_chase(player):
                             print(SingleTable([["You got hit by one of their shots and lost some health!"]]).table)
                         else:
                             drug = choice(["cocaine", "heroin", "acid", "weed", "speed", "ludes"])
-                            pdrug = p.get_amt(drug)
+                            pdrug = player.get_amt(drug)
                             if pdrug > 0:
                                 amnt = randint(1, 10)
                                 pdrug -= amnt
@@ -54,7 +54,7 @@ def cops_chase(player):
                         cops -= 1
                         if cops == 0:
                             drug = choice(["cocaine", "heroin", "acid", "weed", "speed", "ludes"])
-                            pdrug = p.get_amt(drug)
+                            pdrug = player.get_amt(drug)
                             if pdrug > 0:
                                 amnt = randint(1, 10)
                                 pdrug -= amnt
@@ -76,7 +76,7 @@ def cops_chase(player):
                 input()
                 if 1 == randint(1,3):
                     drug = choice(["cocaine", "heroin", "acid", "weed", "speed", "ludes"])
-                    pdrug = p.get_amt(drug)
+                    pdrug = player.get_amt(drug)
                     if pdrug > 0:
                         amnt = randint(1, 10)
                         pdrug -= amnt
