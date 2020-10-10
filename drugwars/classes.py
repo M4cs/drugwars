@@ -4,7 +4,7 @@ from .helpers import round_down
 class Shark():
     def __init__(self, player):
         self.player = player
-        self.balance = 0
+        self.balance = 5500
 
     def interest(self):
         self.balance = int(round_down(self.balance * 1.08))
