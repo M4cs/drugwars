@@ -142,7 +142,7 @@ class Player:
         return (self.cocaine + self.heroin + self.acid + self.weed + self.speed + self.ludes)
 
     def coat_space(self):
-        return 100 - (self.cocaine + self.heroin + self.acid + self.weed + self.speed + self.ludes)
+        return self.max_trench - (self.cocaine + self.heroin + self.acid + self.weed + self.speed + self.ludes)
     
     def get_max(self, drug, price):
         return int(self.money / price)

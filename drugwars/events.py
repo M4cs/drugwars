@@ -96,6 +96,7 @@ def cops_chase(player):
 
 
 def ask_bank(player):
+    clear()
     while True:
         print(SingleTable([['Would you like to visit the bank?']]).table)
         ans = input("\n> ")
@@ -109,6 +110,7 @@ def ask_bank(player):
             break
 
 def ask_loan_shark(player):
+    clear()
     while True:
         print(SingleTable([['Would you like to visit the loan shark?']]).table)
         ans = input("\n> ")
@@ -122,6 +124,7 @@ def ask_loan_shark(player):
             break
 
 def ask_stash(player):
+    clear()
     while True:
         print(SingleTable([['Would you like to stash any drugs?']]).table)
         ans = input("\n> ")
@@ -135,6 +138,7 @@ def ask_stash(player):
             break
 
 def visit_stash(player):
+    clear()
     while True:
         print(SingleTable([['How much cocaine would you like to deposit?'], ['Stash: ' + str(player.stash.cocaine) + ' | Coat: ' + str(player.cocaine)]]).table)
         try:
@@ -239,6 +243,7 @@ def visit_stash(player):
     clear()
 
 def visit_bank(player):
+    clear()
     if player.money > 0:
         while True:
             print(SingleTable([['How much would you like to deposit?'], ['Bank: ' + str(player.bank.balance) + ' | Wallet: ' + str(player.money)]]).table)
@@ -276,6 +281,7 @@ def visit_bank(player):
                 print(SingleTable([["That isn't a number!"]]).table)
 
 def visit_loan_shark(player):
+    clear()
     while True:
         print(SingleTable([['How much would you like to repay?'], ['Debt: ' + str(player.shark.balance) + ' | Wallet: ' + str(player.money)]]).table)
         try:
@@ -314,30 +320,35 @@ def visit_loan_shark(player):
             print(SingleTable([["That isn't a number!"]]).table)
 
 def upgrade_coat(p):
-    if 1 == randint(1, 5):
+    clear()
+    if 1 == randint(1, 3):
         clear()
         while True:
             price = randint(150, 250)
-            print(SingleTable([["** Would you like to buy 15 more pockets for more drugs? It's $" + str(price) + " **"], ["Wallet: ", p.money]]).table)
-            a = input("\n> ")
-            ao = check_ans_yn(a)
-            if ao == 1:
-                p.max_trench += 15
-                p.money -= price
-                clear()
-                print(SingleTable([["You bought more trench pockets for $" + str(price)]]).table)
+            if p.money >= price:
+                print(SingleTable([["** Would you like to buy 15 more pockets for more drugs? It's $" + str(price) + " **"], ["Wallet: ", p.money]]).table)
+                a = input("\n> ")
+                ao = check_ans_yn(a)
+                if ao == 1:
+                    p.max_trench += 15
+                    p.money -= price
+                    clear()
+                    print(SingleTable([["You bought more trench pockets for $" + str(price)]]).table)
+                    input("Press ENTER to Continue")
+                    break
+                elif ao == 2:
+                    break
+                else:
+                    clear()
+                    print(SingleTable([["Please enter Y or N"]]).table)
+                    break
                 input("Press ENTER to Continue")
-                break
-            elif ao == 2:
-                break
-            else:
                 clear()
-                print(SingleTable([["Please enter Y or N"]]).table)
+            else:
                 break
-            input("Press ENTER to Continue")
-            clear()
 
 def get_mugged(p):
+    clear()
     if 1 == randint(1, 10):
         clear()
         print(SingleTable([["You got mugged!! You lost " + str(p.money - int(round_down(p.money * 0.80))) + " dollars!"]]).table)
@@ -346,6 +357,7 @@ def get_mugged(p):
         clear()
 
 def find_drugs(p):
+    clear()
     if 1 == randint(1, 10):
         clear()
         amnt = randint(1, 10)
@@ -373,6 +385,7 @@ def find_drugs(p):
         input("Press ENTER to Continue")
 
 def buy_gun(p):
+    clear()
     if 1 == randint(1, 10):
         clear()
         while True:
