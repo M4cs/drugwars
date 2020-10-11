@@ -1,8 +1,11 @@
 <p align="center">
   <img src="https://i.imgur.com/pvKzM9G.png">
+  <br>
   <img src="https://pepy.tech/badge/drugwars">
   <img src="https://img.shields.io/github/issues/M4cs/drugwars">
   <img src="https://img.shields.io/github/stars/M4cs/drugwars">
+  <br>
+  <a href="https://discord.gg/2Xjc5fm" target="_blank"><img src="https://images.squarespace-cdn.com/content/v1/52290b27e4b0d4e459887aa9/1523645697591-KOD97HRR5QMOQ99BU0SK/ke17ZwdGBToddI8pDm48kPGHCmdEuDVllAdzL7xM7OxZw-zPPgdn4jUwVcJE1ZvWQUxwkmyExglNqGp0IvTJZUJFbgE-7XRK3dMEBRBhUpyzorRYpSuI1QCKuYWJsZxMGWkkNP4-spN_NRwwEFqVwPzJYUtQepn4ZOWE62R4wIk/join-us-on-discord_1.png" height="95" width="300"></a>
 </p>
 
 # Drugwars
