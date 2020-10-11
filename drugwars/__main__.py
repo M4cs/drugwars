@@ -22,7 +22,7 @@ def main():
             [""],
             ["   Press ENTER to Play or Ctrl+C to Quit"],
             [""],
-            ["  Version: 1.1.10  Report Bugs on GitHub"],
+            ["  Version: 1.2.0  Report Bugs on GitHub"],
             ["https://github.com/M4cs/Drugwars/issues/new"]
         ]
         print(SingleTable(title_screen).table)

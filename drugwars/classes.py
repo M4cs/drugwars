@@ -70,39 +70,35 @@ class Stash:
         self.speed = 0
         self.ludes = 0
 
+    def withdraw(self, drug, amount):
+        if hasattr(self.player, drug):
+            dref = getattr(self.player, drug)
+            dref += amount
+            setattr(self.player, drug, dref)
+            sref = getattr(self, drug)
+            sref -= amount
+            setattr(self, drug, sref)
+
     def transfer(self, drug, amount):
-        if drug == "cocaine":
-            self.cocaine += amount
-            self.player.cocaine -= amount
-        elif drug == "heroin":
-            self.heroin += amount
-            self.player.heroin -= amount
-        elif drug == "acid":
-            self.acid += amount
-            self.player.acid -= amount
-        elif drug == "weed":
-            self.weed += amount
-            self.player.weed -= amount
-        elif drug == "speed":
-            self.speed += amount
-            self.player.speed -= amount
-        elif drug == "ludes":
-            self.ludes += amount
-            self.player.ludes -= amount
+        if hasattr(self.player, drug):
+            dref = getattr(self.player, drug)
+            dref -= amount
+            setattr(self.player, drug, dref)
+            sref = getattr(self, drug)
+            sref += amount
+            setattr(self, drug, sref)
     
     def can_transfer(self, drug, amount):
-        if drug == "cocaine":
-            return self.player.cocaine >= amount
-        elif drug == "heroin":
-            return self.player.heroin >= amount
-        elif drug == "acid":
-            return self.player.acid >= amount
-        elif drug == "weed":
-            return self.player.weed >= amount
-        elif drug == "speed":
-            return self.player.speed >= amount
-        elif drug == "ludes":
-            return self.player.ludes >= amount
+        if hasattr(self.player, drug):
+            dref = getattr(self.player, drug)
+            return dref >= amount
+        return False
+
+    def can_withdraw(self, drug, amount):
+        if hasattr(self, drug):
+            dref = getattr(self, drug)
+            return dref >= amount
+        return False
 
 class Player:
     def __init__(self):
@@ -124,18 +120,9 @@ class Player:
         self.current_area = "Bronx"
     
     def buy(self, drug, amount, price):
-        if drug == "cocaine":
-            self.cocaine += amount
-        elif drug == "heroin":
-            self.heroin += amount
-        elif drug == "acid":
-            self.acid += amount
-        elif drug == "weed":
-            self.weed += amount
-        elif drug == "speed":
-            self.speed += amount
-        elif drug == "ludes":
-            self.ludes += amount
+        dref = getattr(self, drug)
+        dref += amount
+        setattr(self, drug, dref)
         self.money -= (amount * price)
 
     def len_inventory(self):
@@ -151,46 +138,18 @@ class Player:
         return self.money >= (price * amount) and (self.len_inventory() + amount) <= self.max_trench
 
     def can_sell(self, amount, drug):
-        if drug == "cocaine":
-            return self.cocaine - amount >= 0
-        elif drug == "heroin":
-            return self.heroin - amount >= 0
-        elif drug == "acid":
-            return self.acid - amount >= 0
-        elif drug == "weed":
-            return self.weed - amount >= 0
-        elif drug == "speed":
-            return self.speed - amount >= 0
-        elif drug == "ludes":
-            return self.ludes - amount >= 0
+        dref = getattr(self, drug)
+        return dref - amount >= 0
 
     def get_amt(self, drug):
-        if drug == "cocaine":
-            return self.cocaine
-        elif drug == "heroin":
-            return self.heroin
-        elif drug == "acid":
-            return self.acid
-        elif drug == "weed":
-            return self.weed
-        elif drug == "speed":
-            return self.speed
-        elif drug == "ludes":
-            return self.ludes
+        if hasattr(self, drug):
+            return getattr(self, drug)
+        return None
 
     def sell(self, drug, amount, price):
-        if drug == "cocaine":
-            self.cocaine -= amount
-        elif drug == "heroin":
-            self.heroin -= amount
-        elif drug == "acid":
-            self.acid -= amount
-        elif drug == "weed":
-            self.weed -= amount
-        elif drug == "speed":
-            self.speed -= amount
-        elif drug == "ludes":
-            self.ludes -= amount
+        dref = getattr(self, drug)
+        dref -= amount
+        setattr(self, drug, dref)
         self.money += (amount * price)
 
 class Prices:

@@ -138,109 +138,41 @@ def ask_stash(player):
             break
 
 def visit_stash(player):
-    clear()
-    while True:
-        print(SingleTable([['How much cocaine would you like to deposit?'], ['Stash: ' + str(player.stash.cocaine) + ' | Coat: ' + str(player.cocaine)]]).table)
-        try:
-            ans = int(input("\n> "))
-            if ans == 0:
-                break
-            else:
-                if player.stash.can_transfer("cocaine", ans):
-                    player.stash.transfer("cocaine", ans)
+    stashes = ["cocaine", "heroin", "acid", "weed", "speed", "ludes"]
+    for stash in stashes:
+        clear()
+        while True:
+            print(SingleTable([['How much ' + stash + ' would you like to deposit?'], ['Stash: ' + str(getattr(player.stash, stash)) + ' | Coat: ' + str(getattr(player, stash))]]).table)
+            try:
+                ans = int(input("\n> "))
+                if ans == 0:
                     break
                 else:
-                    clear()
-                    print(SingleTable([["You don't have that much!"]]).table)
-        except ValueError as e:
-            clear()
-            print(SingleTable([["That isn't a number!"]]).table)
-    clear()
-    while True:
-        print(SingleTable([['How much heroin would you like to deposit?'], ['Stash: ' + str(player.stash.heroin) + ' | Coat: ' + str(player.heroin)]]).table)
-        try:
-            ans = int(input("\n> "))
-            if ans == 0:
-                break
-            else:
-                if player.stash.can_transfer("heroin", ans):
-                    player.stash.transfer("heroin", ans)
+                    if player.stash.can_transfer(stash, ans):
+                        player.stash.transfer(stash, ans)
+                        break
+                    else:
+                        clear()
+                        print(SingleTable([["You don't have that much!"]]).table)
+            except ValueError as e:
+                clear()
+                print(SingleTable([["That isn't a number!"]]).table)
+        while True:
+            print(SingleTable([['How much ' + stash + ' would you like to take out?'], ['Stash: ' + str(getattr(player.stash, stash)) + ' | Coat: ' + str(getattr(player, stash))]]).table)
+            try:
+                ans = int(input("\n> "))
+                if ans == 0:
                     break
                 else:
-                    clear()
-                    print(SingleTable([["You don't have that much!"]]).table)
-        except ValueError as e:
-            clear()
-            print(SingleTable([["That isn't a number!"]]).table)
-    clear()
-    while True:
-        print(SingleTable([['How much acid would you like to deposit?'], ['Stash: ' + str(player.stash.acid) + ' | Coat: ' + str(player.acid)]]).table)
-        try:
-            ans = int(input("\n> "))
-            if ans == 0:
-                break
-            else:
-                if player.stash.can_transfer("acid", ans):
-                    player.stash.transfer("acid", ans)
-                    break
-                else:
-                    clear()
-                    print(SingleTable([["You don't have that much!"]]).table)
-        except ValueError as e:
-            clear()
-            print(SingleTable([["That isn't a number!"]]).table)
-    clear()
-    while True:
-        print(SingleTable([['How much weed would you like to deposit?'], ['Stash: ' + str(player.stash.weed) + ' | Coat: ' + str(player.weed)]]).table)
-        try:
-            ans = int(input("\n> "))
-            if ans == 0:
-                break
-            else:
-                if player.stash.can_transfer("weed", ans):
-                    player.stash.transfer("weed", ans)
-                    break
-                else:
-                    clear()
-                    print(SingleTable([["You don't have that much!"]]).table)
-        except ValueError as e:
-            clear()
-            print(SingleTable([["That isn't a number!"]]).table)
-    clear()
-    while True:
-        print(SingleTable([['How much speed would you like to deposit?'], ['Stash: ' + str(player.stash.speed) + ' | Coat: ' + str(player.speed)]]).table)
-        try:
-            ans = int(input("\n> "))
-            if ans == 0:
-                break
-            else:
-                if player.stash.can_transfer("speed", ans):
-                    player.stash.transfer("speed", ans)
-                    break
-                else:
-                    clear()
-                    print(SingleTable([["You don't have that much!"]]).table)
-        except ValueError as e:
-            clear()
-            print(SingleTable([["That isn't a number!"]]).table)
-    clear()
-    while True:
-        print(SingleTable([['How many ludes would you like to deposit?'], ['Stash: ' + str(player.stash.ludes) + ' | Coat: ' + str(player.ludes)]]).table)
-        try:
-            ans = int(input("\n> "))
-            if ans == 0:
-                break
-            else:
-                if player.stash.can_transfer("ludes", ans):
-                    player.stash.transfer("ludes", ans)
-                    break
-                else:
-                    clear()
-                    print(SingleTable([["You don't have that many!"]]).table)
-        except ValueError as e:
-            clear()
-            print(SingleTable([["That isn't a number!"]]).table)
-    clear()
+                    if player.stash.can_withdraw(stash, ans):
+                        player.stash.withdraw(stash, ans)
+                        break
+                    else:
+                        clear()
+                        print(SingleTable([["You don't have that much in your stash!"]]).table)
+            except ValueError as e:
+                clear()
+                print(SingleTable([["That isn't a number!"]]).table)
 
 def visit_bank(player):
     clear()

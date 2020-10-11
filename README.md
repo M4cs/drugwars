@@ -81,6 +81,17 @@ Drugwars is a game I've been playing for a long time, well before I learned how 
 
 # Changelog
 
+v1.2.0
+
+```
+- Optimized Drug Stashes
+- Optimized Stash Menu
+- Optimized Classes
+- Optimized Helpers
+- Bug Fixes
+- Added Withdraw to Stash (it was missing lol)
+```
+
 v1.1.10
 
 ```

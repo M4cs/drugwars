@@ -9,22 +9,21 @@ def check_ans_yn(a):
         return 0
 
 def check_drug_inp(a):
+    a = a.lower()
+    drugs = {
+        "c": "cocaine",
+        "h": "heroin",
+        "a": "acid",
+        "w": "weed",
+        "s": "speed",
+        "l": "ludes"
+    }
     if len(a) == 0:
         return None
-    if a[0].lower() == "c":
-        return "cocaine"
-    elif a[0].lower() == "h":
-        return "heroin"
-    elif a[0].lower() == "a":
-        return "acid"
-    elif a[0].lower() == "w":
-        return "weed"
-    elif a[0].lower() == "s":
-        return "speed"
-    elif a[0].lower() == "l":
-        return "ludes"
-    else:
-        return None
+    for k, v in drugs.items():
+        if k == a[0]:
+            return v
+    return None
 
 def check_ans_bsj(a):
     if a.lower() == "b":
