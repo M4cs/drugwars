@@ -384,6 +384,8 @@ def find_drugs(p):
         amnt = randint(1, 10)
         drug = randint(1, 8)
         dstr = ""
+        if p.len_inventory() + amnt <= p.max_trench:
+            amnt = p.coat_space()
         if drug == 1:
             dstr = "Cocaine"
             p.cocaine += amnt
