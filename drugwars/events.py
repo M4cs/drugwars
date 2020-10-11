@@ -370,7 +370,7 @@ def you_win(p):
     print(SingleTable([["Your Score:", str(score) + " out of 100"]]).table)
     if score >= 0 and score <= 30:
         print(SingleTable([["Dealer Rank", "Small Time Pusha... WEAK"]]).table)
-    elif score >= and or score <= 50:
+    elif score >= 31 and score <= 50:
         print(SingleTable([["Dealer Rank", "Own The Block... NOT BAD"]]).table)
     elif score >= 51 and score <= 75:
         print(SingleTable([["Dealer Rank", "Run The Town... PRETTY GOOD"]]).table)

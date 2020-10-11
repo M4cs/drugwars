@@ -132,7 +132,11 @@ class Player:
         return self.max_trench - (self.cocaine + self.heroin + self.acid + self.weed + self.speed + self.ludes)
     
     def get_max(self, drug, price):
-        return int(self.money / price)
+        max_amt = int(round_down(self.money / price))
+        if max_amt > self.coat_space():
+            return self.coat_space()
+        else:
+            return max_amt
 
     def can_buy(self, price, amount):
         return self.money >= (price * amount) and (self.len_inventory() + amount) <= self.max_trench
