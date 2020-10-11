@@ -362,7 +362,7 @@ def buy_gun(p):
 
 def you_win(p):
     clear()
-    score = (p.bank.balance + p.money - p.shark.balance) / 1000000 * 100)
+    score = int(round_down((p.bank.balance + p.money - p.shark.balance) / 10000000 * 100))
     if score > 100:
         score = 100
     print(SingleTable([["GAME OVER", "You Reached 30 Days!"]]).table)
