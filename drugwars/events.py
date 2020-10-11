@@ -274,35 +274,33 @@ def visit_loan_shark(player):
 
 def upgrade_coat(p):
     clear()
-    if 1 == randint(1, 3):
-        clear()
-        while True:
-            price = randint(150, 250)
-            if p.money >= price:
-                print(SingleTable([["** Would you like to buy 15 more pockets for more drugs? It's $" + str(price) + " **"], ["Wallet: ", p.money]]).table)
-                a = input("\n> ")
-                ao = check_ans_yn(a)
-                if ao == 1:
-                    p.max_trench += 15
-                    p.money -= price
-                    clear()
-                    print(SingleTable([["You bought more trench pockets for $" + str(price)]]).table)
-                    input("Press ENTER to Continue")
-                    break
-                elif ao == 2:
-                    break
-                else:
-                    clear()
-                    print(SingleTable([["Please enter Y or N"]]).table)
-                    break
-                input("Press ENTER to Continue")
+    while True:
+        price = randint(150, 250)
+        if p.money >= price:
+            print(SingleTable([["** Would you like to buy 15 more pockets for more drugs? It's $" + str(price) + " **"], ["Wallet: ", p.money]]).table)
+            a = input("\n> ")
+            ao = check_ans_yn(a)
+            if ao == 1:
+                p.max_trench += 15
+                p.money -= price
                 clear()
-            else:
+                print(SingleTable([["You bought more trench pockets for $" + str(price)]]).table)
+                input("Press ENTER to Continue")
                 break
+            elif ao == 2:
+                break
+            else:
+                clear()
+                print(SingleTable([["Please enter Y or N"]]).table)
+                break
+            input("Press ENTER to Continue")
+            clear()
+        else:
+            break
 
 def get_mugged(p):
     clear()
-    if 1 == randint(1, 10):
+    if 1 == randint(1, 8):
         clear()
         print(SingleTable([["You got mugged!! You lost " + str(p.money - int(round_down(p.money * 0.80))) + " dollars!"]]).table)
         p.money = int(round_down(p.money * 0.80))
@@ -317,31 +315,30 @@ def find_drugs(p):
         drug = randint(1, 8)
         dstr = ""
         if p.len_inventory() + amnt <= p.max_trench:
-            amnt = p.coat_space()
-        if drug == 1:
-            dstr = "Cocaine"
-            p.cocaine += amnt
-        if drug == 2:
-            dstr = "Heroin"
-            p.heroin += amnt
-        if drug == 3:
-            dstr = "Acid"
-            p.acid += amnt
-        if drug == 4:
-            dstr = "Weed"
-            p.weed += amnt
-        if drug == 5:
-            dstr = "Speed"
-            p.speed += amnt
-        if drug == 6:
-            dstr = "Ludes"
-            p.ludes += amnt
-        print(SingleTable([["You found " + str(amnt) + " bags of " + dstr + " on the ground... \n FUCK YEAH"]]).table)
-        input("Press ENTER to Continue")
+            if drug == 1:
+                dstr = "Cocaine"
+                p.cocaine += amnt
+            if drug == 2:
+                dstr = "Heroin"
+                p.heroin += amnt
+            if drug == 3:
+                dstr = "Acid"
+                p.acid += amnt
+            if drug == 4:
+                dstr = "Weed"
+                p.weed += amnt
+            if drug == 5:
+                dstr = "Speed"
+                p.speed += amnt
+            if drug == 6:
+                dstr = "Ludes"
+                p.ludes += amnt
+            print(SingleTable([["You found " + str(amnt) + " bags of " + dstr + " on the ground... \n FUCK YEAH"]]).table)
+            input("Press ENTER to Continue")
 
 def buy_gun(p):
     clear()
-    if 1 == randint(1, 10):
+    if 1 == randint(1, 5):
         clear()
         while True:
             price = randint(200, 300)
@@ -365,9 +362,22 @@ def buy_gun(p):
 
 def you_win(p):
     clear()
+    score = (p.bank.balance + p.money - p.shark.balance) / 1000000 * 100)
+    if score > 100:
+        score = 100
     print(SingleTable([["GAME OVER", "You Reached 30 Days!"]]).table)
     print(SingleTable([["Your Total Money:", p.bank.balance + p.money - p.shark.balance]]).table)
-    print(SingleTable([["Your Score:", str((p.bank.balance + p.money - p.shark.balance) / 1000000 * 100) + " out of 100"]]).table)
+    print(SingleTable([["Your Score:", str(score) + " out of 100"]]).table)
+    if score >= 0 or score <= 30:
+        print(SingleTable([["Dealer Rank", "Small Time Pusha... WEAK"]]).table)
+    elif score >= 31 or score <= 50:
+        print(SingleTable([["Dealer Rank", "Own The Block... NOT BAD"]]).table)
+    elif score >= 51 or score <= 75:
+        print(SingleTable([["Dealer Rank", "Run The Town... PRETTY GOOD"]]).table)
+    elif score >= 76 or score <= 99:
+        print(SingleTable([["Dealer Rank", "Kingpin... GOD DAMN"]]).table)
+    else:
+        print(SingleTable([["Dealer Rank", "PABLO ESCOBAR... YOU ARE A GOD"]]).table)
     exit()
 
 def buy_menu(prices, inventory_table, pricing_table, money_table, p):
@@ -513,7 +523,7 @@ def main_screen(p):
     if p.days == 30:
         you_win(p)
     if not p.is_first_round:
-        achoice = choice([lambda p: cops_chase(p), lambda p: buy_gun(p), lambda p: get_mugged(p), lambda p: find_drugs(p), lambda p: upgrade_coat(p), lambda p: upgrade_coat(p)])
+        achoice = choice([lambda p: cops_chase(p), lambda p: buy_gun(p), lambda p: get_mugged(p), lambda p: find_drugs(p), lambda p: upgrade_coat(p)])
         achoice(p)
     if prices.action != None and not p.is_first_round:
         print(SingleTable([[prices.action]]).table)
