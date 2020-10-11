@@ -368,13 +368,13 @@ def you_win(p):
     print(SingleTable([["GAME OVER", "You Reached 30 Days!"]]).table)
     print(SingleTable([["Your Total Money:", p.bank.balance + p.money - p.shark.balance]]).table)
     print(SingleTable([["Your Score:", str(score) + " out of 100"]]).table)
-    if score >= 0 or score <= 30:
+    if score >= 0 and score <= 30:
         print(SingleTable([["Dealer Rank", "Small Time Pusha... WEAK"]]).table)
-    elif score >= 31 or score <= 50:
+    elif score >= and or score <= 50:
         print(SingleTable([["Dealer Rank", "Own The Block... NOT BAD"]]).table)
-    elif score >= 51 or score <= 75:
+    elif score >= 51 and score <= 75:
         print(SingleTable([["Dealer Rank", "Run The Town... PRETTY GOOD"]]).table)
-    elif score >= 76 or score <= 99:
+    elif score >= 76 and score <= 99:
         print(SingleTable([["Dealer Rank", "Kingpin... GOD DAMN"]]).table)
     else:
         print(SingleTable([["Dealer Rank", "PABLO ESCOBAR... YOU ARE A GOD"]]).table)
