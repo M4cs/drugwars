@@ -1,5 +1,5 @@
 from terminaltables import SingleTable
-from .helpers import check_ans_yn, clear, round_down, check_ans_bsj, check_drug_inp
+from .helpers import check_ans_yn, clear, round_down, check_ans_bsj, check_drug_inp, get_price
 from .classes import Prices
 from random import randint, choice
 
@@ -365,7 +365,9 @@ def you_win(p):
     score = int(round_down((p.bank.balance + p.money - p.shark.balance) / 10000000 * 100))
     if score > 100:
         score = 100
-    print(SingleTable([["GAME OVER", "You Reached 30 Days!"]]).table)
+    if p.bank.balance + p.money - p.shark.balance < 0:
+        score = 0
+    print(SingleTable([["GAME OVER", f"You Reached {p.days_end} Days!"]]).table)
     print(SingleTable([["Your Total Money:", p.bank.balance + p.money - p.shark.balance]]).table)
     print(SingleTable([["Your Score:", str(score) + " out of 100"]]).table)
     if score >= 0 and score <= 30:
@@ -386,39 +388,50 @@ def buy_menu(prices, inventory_table, pricing_table, money_table, p):
         print(SingleTable(pricing_table(), title="Prices").table)
         print(SingleTable(money_table(), title="Money").table)
         print(SingleTable([["What would you like to buy?"]]).table)
-        buy = input("\n> ")
-        if not check_drug_inp(buy):
+        desired = input("\n> ")
+        if not check_drug_inp(desired):
             clear()
             print(SingleTable([["Enter the first letter of a drug to choose!"]]).table)
         else:
-            if buy[0].lower() == "c":
-                drug = prices.cocaine
-            elif buy[0].lower() == "h":
-                drug = prices.heroin
-            elif buy[0].lower() == "a":
-                drug = prices.acid
-            elif buy[0].lower() == "w":
-                drug = prices.weed
-            elif buy[0].lower() == "s":
-                drug = prices.speed
-            elif buy[0].lower() == "l":
-                drug = prices.ludes
-            price = int(round_down(drug))
-            print(SingleTable([["How much would you like to buy?"], ["Max Allowed: " + str(p.get_max(check_drug_inp(buy), drug))]]).table)
+            # Get some useful variables that will clean up the code a lot
+            drug = check_drug_inp(desired)
+            price = round_down(get_price(prices, drug))
+            max_allowed = p.get_max(drug, price)
+            
+            print(SingleTable([["How much would you like to buy?"], [f"Max Allowed: {str(max_allowed)}"]]).table)
+            desiredamnt = input("\n> ")
+
+            # Calculate amount 
             try:
-                amnt = int(input("\n> "))
-                if p.can_buy(price, int(amnt)):
-                    p.buy(check_drug_inp(buy), amnt, price)
-                    clear()
-                    print(SingleTable([["You bought " + str(amnt) + " of " + check_drug_inp(buy)]]).table)
-                    break
-                else:
-                    clear()
-                    print(SingleTable([["You don't have enough money/coat space to buy that!"]]).table)
-                    break
+                amnt = int(desiredamnt)
             except ValueError:
+                if desiredamnt.count('%') > 0:
+                    if int(desiredamnt.replace('%', '')) > 100:
+                        tmp = 100
+                    else:
+                        tmp = int(desiredamnt.replace('%', ''))
+
+                    amnt = round_down(max_allowed * (tmp / 100))
+                else:
+                    if desiredamnt == 'a' or desiredamnt == 'all':
+                        amnt = max_allowed
+                    elif desiredamnt == 'h' or desiredamnt == 'half':
+                        amnt = round_down(max_allowed / 2)
+                    else:
+                        clear()
+                        print(SingleTable([["That isn't a valid amount!"]]).table)
+                        continue
+            
+            # Buy the drug
+            if p.can_buy(price, amnt):
+                p.buy(drug, amnt, price)
                 clear()
-                print(SingleTable([["That isn't a number!"]]).table)
+                print(SingleTable([[f"You bought {str(amnt)} of {drug}!"]]).table)
+                break
+            else:
+                clear()
+                print(SingleTable([["You don't have enough money/coat space to buy that!"]]).table)
+                break
 
 def sell_menu(prices, inventory_table, pricing_table, money_table, p):
     while True:
@@ -426,39 +439,50 @@ def sell_menu(prices, inventory_table, pricing_table, money_table, p):
         print(SingleTable(pricing_table(), title="Prices").table)
         print(SingleTable(money_table(), title="Money").table)
         print(SingleTable([["What would you like to sell?"]]).table)
-        sell = input("\n> ")
-        if not check_drug_inp(sell):
+        desired = input("\n> ")
+        if not check_drug_inp(desired):
             clear()
             print(SingleTable([["Enter the first letter of a drug to choose!"]]).table)
         else:
-            if sell[0].lower() == "c":
-                drug = prices.cocaine
-            elif sell[0].lower() == "h":
-                drug = prices.heroin
-            elif sell[0].lower() == "a":
-                drug = prices.acid
-            elif sell[0].lower() == "w":
-                drug = prices.weed
-            elif sell[0].lower() == "s":
-                drug = prices.speed
-            elif sell[0].lower() == "l":
-                drug = prices.ludes
-            price = int(round_down(drug))
-            print(SingleTable([["How much would you like to sell?"], ["You Have: " + str(p.get_amt(check_drug_inp(sell)))]]).table)
+            # Get some useful variables that will clean up the code a lot
+            drug = check_drug_inp(desired)
+            price = round_down(get_price(prices, drug))
+            max_allowed = p.get_max_sell(drug)
+
+            print(SingleTable([["How much would you like to sell?"], [f"You have: {str(p.get_amt(drug))} {drug}"]]).table)
+            desiredamnt = input("\n> ")
+
+            # Calculate amount
             try:
-                amnt = int(input("\n> "))
-                if p.can_sell(amnt, check_drug_inp(sell)):
-                    p.sell(check_drug_inp(sell), amnt, price)
-                    clear()
-                    print(SingleTable([["You sold " + str(amnt) + " of " + check_drug_inp(sell)]]).table)
-                    break
-                else:
-                    clear()
-                    print(SingleTable([["You don't have enough to sell that many!"]]).table)
-                    break
+                amnt = int(desiredamnt)
             except ValueError:
+                if desiredamnt.count('%') > 0:
+                    if int(desiredamnt.replace('%', '')) > 100:
+                        tmp = 100
+                    else:
+                        tmp = int(desiredamnt.replace('%', ''))
+
+                    amnt = round_down(max_allowed * (tmp / 100))
+                else:
+                    if desiredamnt == 'a' or desiredamnt == 'all':
+                        amnt = max_allowed
+                    elif desiredamnt == 'h' or desiredamnt == 'half':
+                        amnt = round_down(max_allowed / 2)
+                    else:
+                        clear()
+                        print(SingleTable([["That isn't a valid amount!"]]).table)
+                        continue
+
+            # Sell the drug
+            if p.can_sell(amnt, drug):
+                p.sell(drug, amnt, price)
                 clear()
-                print(SingleTable([["That isn't a number!"]]).table)
+                print(SingleTable([[f"You sold {str(amnt)} of {drug}!"]]).table)
+                break
+            else:
+                clear()
+                print(SingleTable([["You don't have that many drugs!"]]).table)
+                break
 
 def location_menu(p):
     while True:
@@ -517,10 +541,29 @@ def difficulty_screen():
             print(SingleTable([["Options Are: E, N, or H!!"]]).table)
             
     
+def days_screen():
+    clear()
+    while True:
+        day_table = [
+            ["(A) 30 Days", "(B) 60 Days", "(C) 90 Days"]
+        ]
+        print(SingleTable(day_table, "Number of Days").table)
+        print("How many days would you like to play?")
+        test = input("\n> ")
+        if test.lower() == 'a':
+            return 30
+        elif test.lower() == 'b':
+            return 60
+        elif test.lower() == 'c':
+            return 90
+        else:
+            clear()
+            print(SingleTable([["Options Are: A, B, or C."]]).table)
+
 
 def main_screen(p):
     prices = Prices(p)
-    if p.days == 30:
+    if p.days == p.days_end:
         you_win(p)
     if not p.is_first_round:
         achoice = choice([lambda p: cops_chase(p), lambda p: buy_gun(p), lambda p: get_mugged(p), lambda p: find_drugs(p), lambda p: upgrade_coat(p)])
@@ -537,7 +580,7 @@ def main_screen(p):
     while True:
         clear()
         inventory_table = lambda : [
-            ['Inventory', 'Days Left: ' + str(30 - p.days)],
+            ['Inventory', 'Days Left: ' + str(p.days_end - p.days)],
             ['Cocaine: ' + str(round_down(p.cocaine)), 'Weed: ' + str(round_down(p.weed))],
             ['Heroin: ' + str(round_down(p.heroin)), 'Speed: ' + str(round_down(p.speed))],
             ['Acid: ' + str(round_down(p.acid)), 'Ludes: ' + str(round_down(p.ludes))],

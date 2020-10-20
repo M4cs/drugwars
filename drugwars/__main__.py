@@ -1,5 +1,5 @@
-from drugwars.classes import Player
 from drugwars.events import *
+from drugwars.classes import Player
 import requests
 import os
 
@@ -7,10 +7,10 @@ def main():
     clear()
     try:
         logo = '''\
-           ___  ___  __  _______  
-          / _ \/ _ \/ / / / ___/  
-         / // / , _/ /_/ / (_ /   
-        /____/_/|_|\____/\___/  ____
+           ___  ___  __  _______    
+          / _ \/ _ \/ / / / ___/    
+         / // / , _/ /_/ / (_ /     
+        /____/_/|_|\____/\___/  ___ 
            | | /| / / _ | / _ \/ __/
            | |/ |/ / __ |/ , _/\ \  
            |__/|__/_/ |_/_/|_/___/'''
@@ -36,6 +36,9 @@ def main():
             p.shark.balance = 6500
         elif diff == 2:
             p.shark.balance = 8000
+        
+        p.days_end = days_screen()
+        
         main_screen(p)
     except KeyboardInterrupt:
         exit()

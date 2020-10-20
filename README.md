@@ -84,6 +84,12 @@ Drugwars is a game I've been playing for a long time, well before I learned how 
 
 # Changelog
 
+v1.3 (by aconamos)
+```
+- Added "a"/"all", "h"/"half", and percent values to selling/buying drugs
+- Added amount of days option
+- Fixed score going into negative
+```
 
 v1.2.1
 

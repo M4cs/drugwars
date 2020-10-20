@@ -41,3 +41,17 @@ def clear():
 def round_down(n, decimals=0):
     multiplier = 10 ** decimals
     return int(math.floor(n * multiplier) / multiplier)
+
+def get_price(prices, drug):
+    if drug == 'cocaine':
+        return prices.cocaine
+    elif drug == 'heroin':
+        return prices.heroin
+    elif drug == 'acid':
+        return prices.acid
+    elif drug == 'weed':
+        return prices.weed
+    elif drug == 'speed':
+        return prices.speed
+    elif drug == 'ludes':
+        return prices.ludes

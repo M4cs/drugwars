@@ -106,6 +106,7 @@ class Player:
         self.money = 2000
         self.guns = 0
         self.days = 0
+        self.days_end = 30
         self.health = 20
         self.max_trench = 100
         self.cocaine = 0
@@ -137,6 +138,20 @@ class Player:
             return self.coat_space()
         else:
             return max_amt
+
+    def get_max_sell(self, drug):
+        if drug == 'cocaine':
+            return self.cocaine
+        elif drug == 'heroin':
+            return self.heroin
+        elif drug == 'acid':
+            return self.acid
+        elif drug == 'weed':
+            return self.weed
+        elif drug == 'speed':
+            return self.speed
+        elif drug == 'ludes':
+            return self.ludes
 
     def can_buy(self, price, amount):
         return self.money >= (price * amount) and (self.len_inventory() + amount) <= self.max_trench
